@@ -38,15 +38,15 @@ public class AnprResource {
         try {
             systemLogic = new Intelligence(false);
             numberPlate = systemLogic.recognize(new CarSnapshot(absolutePath));
+            file.delete();
         } catch (Exception e) {
             e.printStackTrace();
         }
-        
+
         return Response.status(200).entity(numberPlate).build();
     }
 
-    private static void copyInputStreamToFile(InputStream input, File file)
-            throws IOException {
+    private static void copyInputStreamToFile(InputStream input, File file) throws IOException {
         // append = false
         try (OutputStream output = new FileOutputStream(file, false)) {
             input.transferTo(output);
