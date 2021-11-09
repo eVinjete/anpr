@@ -1,67 +1,65 @@
-/*
- *  Copyright (c) 2014-2017 Kumuluz and/or its affiliates
- *  and other contributors as indicated by the @author tags and
- *  the contributor list.
- *
- *  Licensed under the MIT License (the "License");
- *  you may not use this file except in compliance with the License.
- *  You may obtain a copy of the License at
- *
- *  https://opensource.org/licenses/MIT
- *
- *  The software is provided "AS IS", WITHOUT WARRANTY OF ANY KIND, express or
- *  implied, including but not limited to the warranties of merchantability,
- *  fitness for a particular purpose and noninfringement. in no event shall the
- *  authors or copyright holders be liable for any claim, damages or other
- *  liability, whether in an action of contract, tort or otherwise, arising from,
- *  out of or in connection with the software or the use or other dealings in the
- *  software. See the License for the specific language governing permissions and
- *  limitations under the License.
-*/
 package si.evinjete.anpr;
 
 import com.kumuluz.ee.samples.jaxrs.Customer;
 import com.kumuluz.ee.samples.jaxrs.Database;
+import javaanpr.gui.ReportGenerator;
+import javaanpr.imageanalysis.CarSnapshot;
+import javaanpr.intelligence.Intelligence;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import java.io.*;
+import java.nio.file.Files;
 import java.util.List;
 
-/**
- * @author Benjamin Kastelic
- * @since 2.3.0
- */
-@Consumes(MediaType.APPLICATION_JSON)
-@Produces(MediaType.APPLICATION_JSON)
-@Path("customers")
+
+import javaanpr.gui.ReportGenerator;
+import java.io.IOException;
+import javaanpr.imageanalysis.CarSnapshot;
+import javaanpr.intelligence.Intelligence;
+
+@Path("upload")
 public class AnprResource {
 
-    @GET
-    public Response getAllCustomers() {
-        List<Customer> customers = Database.getCustomers();
-        return Response.ok(customers).build();
-    }
-
-    @GET
-    @Path("{customerId}")
-    public Response getCustomer(@PathParam("customerId") String customerId) {
-        Customer customer = Database.getCustomer(customerId);
-        return customer != null
-                ? Response.ok(customer).build()
-                : Response.status(Response.Status.NOT_FOUND).build();
-    }
+    public static ReportGenerator rg = new ReportGenerator();
+    public static Intelligence systemLogic;
 
     @POST
-    public Response addNewCustomer(Customer customer) {
-        Database.addCustomer(customer);
-        return Response.noContent().build();
+    @Path("/image")
+    @Consumes("image/jpeg")
+    public Response uploadImage(InputStream uploadedInputStream) throws IOException {
+
+//        byte[] bytes = new byte[0];
+//        try (uploadedInputStream) {
+//            bytes = uploadedInputStream.readAllBytes();
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+
+        File file = File.createTempFile("tablica", ".jpg");
+        copyInputStreamToFile(uploadedInputStream, file);
+        String absolutePath = file.toString();
+        String numberPlate = "";
+
+        System.out.println("Absolute path: " + absolutePath);
+
+        try {
+            systemLogic = new Intelligence(false);
+            numberPlate = systemLogic.recognize(new CarSnapshot(absolutePath));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return Response.status(200).entity(numberPlate).build();
+        // return Response.status(200).entity("kurac").build();
     }
 
-    @DELETE
-    @Path("{customerId}")
-    public Response deleteCustomer(@PathParam("customerId") String customerId) {
-        Database.deleteCustomer(customerId);
-        return Response.noContent().build();
+    private static void copyInputStreamToFile(InputStream input, File file)
+            throws IOException {
+        // append = false
+        try (OutputStream output = new FileOutputStream(file, false)) {
+            input.transferTo(output);
+        }
     }
 }
