@@ -1,7 +1,5 @@
 package si.evinjete.anpr;
 
-import com.kumuluz.ee.samples.jaxrs.Customer;
-import com.kumuluz.ee.samples.jaxrs.Database;
 import javaanpr.gui.ReportGenerator;
 import javaanpr.imageanalysis.CarSnapshot;
 import javaanpr.intelligence.Intelligence;
@@ -30,13 +28,6 @@ public class AnprResource {
     @Consumes("image/jpeg")
     public Response uploadImage(InputStream uploadedInputStream) throws IOException {
 
-//        byte[] bytes = new byte[0];
-//        try (uploadedInputStream) {
-//            bytes = uploadedInputStream.readAllBytes();
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
-
         File file = File.createTempFile("tablica", ".jpg");
         copyInputStreamToFile(uploadedInputStream, file);
         String absolutePath = file.toString();
@@ -50,9 +41,8 @@ public class AnprResource {
         } catch (Exception e) {
             e.printStackTrace();
         }
-
+        
         return Response.status(200).entity(numberPlate).build();
-        // return Response.status(200).entity("kurac").build();
     }
 
     private static void copyInputStreamToFile(InputStream input, File file)
