@@ -74,7 +74,7 @@ import org.w3c.dom.*;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 //import org.xml.sax.SAXException;
-import si.evinjete.anpr.Main;
+import si.evinjete.anpr.AnprResource;
 import javaanpr.recognizer.CharacterRecognizer.*;
 
 public class Parser {
@@ -193,7 +193,7 @@ public class Parser {
     //                      : 2 (equal or shorter)
     public String parse(RecognizedPlate recognizedPlate, int syntaxAnalysisMode) throws IOException {
         if (syntaxAnalysisMode==0) {
-            Main.rg.insertText(" result : "+recognizedPlate.getString()+" --> <font size=15>"+recognizedPlate.getString()+"</font><hr><br>");
+            AnprResource.rg.insertText(" result : "+recognizedPlate.getString()+" --> <font size=15>"+recognizedPlate.getString()+"</font><hr><br>");
             return recognizedPlate.getString();
         }
         

@@ -76,7 +76,7 @@ import java.io.File;
 //import java.io.IOException;
 import java.util.Vector;
 //import javax.sound.midi.MidiChannel;
-import si.evinjete.anpr.Main;
+import si.evinjete.anpr.AnprResource;
 import javaanpr.configurator.Configurator;
 import javaanpr.gui.TimeMeter;
 import javaanpr.imageanalysis.Band;
@@ -119,34 +119,34 @@ public class Intelligence {
         int skewDetectionMode = Intelligence.configurator.getIntProperty("intelligence_skewdetection");
         
         if (enableReportGeneration) {
-            Main.rg.insertText("<h1>Automatic Number Plate Recognition Report</h1>");
-            Main.rg.insertText("<span>Image width: "+carSnapshot.getWidth()+" px</span>");
-            Main.rg.insertText("<span>Image height: "+carSnapshot.getHeight()+" px</span>");
+            AnprResource.rg.insertText("<h1>Automatic Number Plate Recognition Report</h1>");
+            AnprResource.rg.insertText("<span>Image width: "+carSnapshot.getWidth()+" px</span>");
+            AnprResource.rg.insertText("<span>Image height: "+carSnapshot.getHeight()+" px</span>");
             
-            Main.rg.insertText("<h2>Vertical and Horizontal plate projection</h2>");
+            AnprResource.rg.insertText("<h2>Vertical and Horizontal plate projection</h2>");
             
-            Main.rg.insertImage(carSnapshot.renderGraph(), "snapshotgraph",0,0);
-            Main.rg.insertImage(carSnapshot.getBiWithAxes(), "snapshot",0,0);
+            AnprResource.rg.insertImage(carSnapshot.renderGraph(), "snapshotgraph",0,0);
+            AnprResource.rg.insertImage(carSnapshot.getBiWithAxes(), "snapshot",0,0);
         }
         
         for (Band b : carSnapshot.getBands()) { //doporucene 3
 
             if (enableReportGeneration) {
-                Main.rg.insertText("<div class='bandtxt'><h4>Band<br></h4>");
-                Main.rg.insertImage(b.getBi(),"bandsmall", 250,30);
-                Main.rg.insertText("<span>Band width : "+b.getWidth()+" px</span>");
-                Main.rg.insertText("<span>Band height : "+b.getHeight()+" px</span>");
-                Main.rg.insertText("</div>");
+                AnprResource.rg.insertText("<div class='bandtxt'><h4>Band<br></h4>");
+                AnprResource.rg.insertImage(b.getBi(),"bandsmall", 250,30);
+                AnprResource.rg.insertText("<span>Band width : "+b.getWidth()+" px</span>");
+                AnprResource.rg.insertText("<span>Band height : "+b.getHeight()+" px</span>");
+                AnprResource.rg.insertText("</div>");
             }
             
             for (Plate plate : b.getPlates()) {//doporucene 3
 
                 if (enableReportGeneration) {
-                    Main.rg.insertText("<div class='platetxt'><h4>Plate<br></h4>");
-                    Main.rg.insertImage(plate.getBi(),"platesmall", 120, 30);
-                    Main.rg.insertText("<span>Plate width : "+plate.getWidth()+" px</span>");
-                    Main.rg.insertText("<span>Plate height : "+plate.getHeight()+" px</span>");
-                    Main.rg.insertText("</div>");
+                    AnprResource.rg.insertText("<div class='platetxt'><h4>Plate<br></h4>");
+                    AnprResource.rg.insertImage(plate.getBi(),"platesmall", 120, 30);
+                    AnprResource.rg.insertText("<span>Plate width : "+plate.getWidth()+" px</span>");
+                    AnprResource.rg.insertText("<span>Plate height : "+plate.getHeight()+" px</span>");
+                    AnprResource.rg.insertText("</div>");
                 }                
 
                 
@@ -189,35 +189,35 @@ public class Intelligence {
                 /* ZNACKA PRIJATA, ZACINA NORMALIZACIA A HEURISTIKA PISMEN */
 
                 if (enableReportGeneration) {
-                    Main.rg.insertText("<h2>Detected band</h2>");
-                    Main.rg.insertImage(b.getBiWithAxes(),"band",0,0);
-                    Main.rg.insertImage(b.renderGraph(),"bandgraph",0,0);
-                    Main.rg.insertText("<h2>Detected plate</h2>");
+                    AnprResource.rg.insertText("<h2>Detected band</h2>");
+                    AnprResource.rg.insertImage(b.getBiWithAxes(),"band",0,0);
+                    AnprResource.rg.insertImage(b.renderGraph(),"bandgraph",0,0);
+                    AnprResource.rg.insertText("<h2>Detected plate</h2>");
                     Plate plateCopy = plate.clone();
                     plateCopy.linearResize(450, 90);
-                    Main.rg.insertImage(plateCopy.getBiWithAxes(), "plate",0,0);
-                    Main.rg.insertImage(plateCopy.renderGraph(), "plategraph",0,0);
+                    AnprResource.rg.insertImage(plateCopy.getBiWithAxes(), "plate",0,0);
+                    AnprResource.rg.insertImage(plateCopy.renderGraph(), "plategraph",0,0);
                 }
                 
                 // SKEW-RELATED
                 if (enableReportGeneration) {
-                    Main.rg.insertText("<h2>Skew detection</h2>");
-                    //Main.rg.insertImage(notNormalizedCopy.getBi());                    
-                    Main.rg.insertImage(notNormalizedCopy.getBi(), "skewimage",0,0);
-                    Main.rg.insertImage(renderedHoughTransform, "skewtransform",0,0);
-                    Main.rg.insertText("Detected skew angle : <b>"+hough.angle+"</b>" );
+                    AnprResource.rg.insertText("<h2>Skew detection</h2>");
+                    //AnprResource.rg.insertImage(notNormalizedCopy.getBi());                    
+                    AnprResource.rg.insertImage(notNormalizedCopy.getBi(), "skewimage",0,0);
+                    AnprResource.rg.insertImage(renderedHoughTransform, "skewtransform",0,0);
+                    AnprResource.rg.insertText("Detected skew angle : <b>"+hough.angle+"</b>" );
                 }
                                     
                 
                 RecognizedPlate recognizedPlate = new RecognizedPlate();
                 
                 if (enableReportGeneration) {
-                    Main.rg.insertText("<h2>Character segmentation</h2>");
-                    Main.rg.insertText("<div class='charsegment'>");
+                    AnprResource.rg.insertText("<h2>Character segmentation</h2>");
+                    AnprResource.rg.insertText("<div class='charsegment'>");
                     for (Char chr : chars) {
-                        Main.rg.insertImage(Photo.linearResizeBi(chr.getBi(),70,100), "",0,0);
+                        AnprResource.rg.insertImage(Photo.linearResizeBi(chr.getBi(),70,100), "",0,0);
                     }
-                    Main.rg.insertText("</div>");
+                    AnprResource.rg.insertText("</div>");
                 }
                 
                 for (Char chr : chars) chr.normalize();
@@ -309,18 +309,18 @@ public class Intelligence {
                     }
                     
                     if (enableReportGeneration) {
-                        Main.rg.insertText("<div class='heuristictable'>");
-                        Main.rg.insertImage(Photo.linearResizeBi(chr.getBi(),chr.getWidth()*2, chr.getHeight()*2), "skeleton",0,0);
-                        Main.rg.insertText("<span class='name'>WHR</span><span class='value'>"+widthHeightRatio+"</span>");
-                        Main.rg.insertText("<span class='name'>HEI</span><span class='value'>"+heightCost+"</span>");
-                        Main.rg.insertText("<span class='name'>NEU</span><span class='value'>"+similarityCost+"</span>");
-                        Main.rg.insertText("<span class='name'>CON</span><span class='value'>"+contrastCost+"</span>");
-                        Main.rg.insertText("<span class='name'>BRI</span><span class='value'>"+brightnessCost+"</span>");
-                        Main.rg.insertText("<span class='name'>HUE</span><span class='value'>"+hueCost+"</span>");
-                        Main.rg.insertText("<span class='name'>SAT</span><span class='value'>"+saturationCost+"</span>");
-                        Main.rg.insertText("</table>");
-                        if (errorFlags.length()!=0) Main.rg.insertText("<span class='errflags'>"+errorFlags+"</span>");
-                        Main.rg.insertText("</div>");
+                        AnprResource.rg.insertText("<div class='heuristictable'>");
+                        AnprResource.rg.insertImage(Photo.linearResizeBi(chr.getBi(),chr.getWidth()*2, chr.getHeight()*2), "skeleton",0,0);
+                        AnprResource.rg.insertText("<span class='name'>WHR</span><span class='value'>"+widthHeightRatio+"</span>");
+                        AnprResource.rg.insertText("<span class='name'>HEI</span><span class='value'>"+heightCost+"</span>");
+                        AnprResource.rg.insertText("<span class='name'>NEU</span><span class='value'>"+similarityCost+"</span>");
+                        AnprResource.rg.insertText("<span class='name'>CON</span><span class='value'>"+contrastCost+"</span>");
+                        AnprResource.rg.insertText("<span class='name'>BRI</span><span class='value'>"+brightnessCost+"</span>");
+                        AnprResource.rg.insertText("<span class='name'>HUE</span><span class='value'>"+hueCost+"</span>");
+                        AnprResource.rg.insertText("<span class='name'>SAT</span><span class='value'>"+saturationCost+"</span>");
+                        AnprResource.rg.insertText("</table>");
+                        if (errorFlags.length()!=0) AnprResource.rg.insertText("<span class='errflags'>"+errorFlags+"</span>");
+                        AnprResource.rg.insertText("</div>");
                     }
                 } // end for each char
                 
@@ -332,9 +332,9 @@ public class Intelligence {
                 String parsedOutput = parser.parse(recognizedPlate, syntaxAnalysisMode);
                 
                 if (enableReportGeneration) {
-                    Main.rg.insertText("<span class='recognized'>");
-                    Main.rg.insertText("Recognized plate : "+parsedOutput);
-                    Main.rg.insertText("</span>");
+                    AnprResource.rg.insertText("<span class='recognized'>");
+                    AnprResource.rg.insertText("Recognized plate : "+parsedOutput);
+                    AnprResource.rg.insertText("</span>");
                 }
                 
                 return parsedOutput;
