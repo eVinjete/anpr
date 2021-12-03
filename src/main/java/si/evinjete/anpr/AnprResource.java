@@ -8,14 +8,8 @@ import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.io.*;
-import java.nio.file.Files;
-import java.util.List;
-
-
-import javaanpr.gui.ReportGenerator;
 import java.io.IOException;
-import javaanpr.imageanalysis.CarSnapshot;
-import javaanpr.intelligence.Intelligence;
+
 
 @Path("upload")
 public class AnprResource {
