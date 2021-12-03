@@ -1,0 +1,9 @@
+kumuluzee:
+  name: anpr
+  env:
+    name: dev
+  version: 1.0.0
+  server:
+    base-url: http://localhost:8081
+    http:
+      port: 8081

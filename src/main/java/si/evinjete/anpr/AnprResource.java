@@ -27,21 +27,52 @@ public class AnprResource {
     @Path("/image")
     @Consumes("image/jpeg")
     public Response uploadImage(InputStream uploadedInputStream) throws IOException {
-
+        String pwd = System.getProperty("user.dir");
         File file = File.createTempFile("tablica", ".jpg");
         copyInputStreamToFile(uploadedInputStream, file);
         String absolutePath = file.toString();
         String numberPlate = "";
 
-        System.out.println("Absolute path: " + absolutePath);
-
         try {
-            systemLogic = new Intelligence(false);
+            systemLogic = new Intelligence(false, pwd);
             numberPlate = systemLogic.recognize(new CarSnapshot(absolutePath));
             file.delete();
         } catch (Exception e) {
             e.printStackTrace();
         }
+
+        System.out.println("Absolute path: " + absolutePath);
+        System.out.println("Number plate: " + numberPlate);
+
+        return Response.status(200).entity(numberPlate).build();
+    }
+
+    @POST
+    @Path("/slika")
+    @Consumes(MediaType.APPLICATION_JSON)
+    public Response zaznajSlika(Slika slika) throws IOException {
+
+        if (slika.getContent() == null || slika.getLocation() == null || slika.getTimestamp() == null) {
+            return Response.status(Response.Status.BAD_REQUEST).build();
+        }
+
+        String pwd = System.getProperty("user.dir");
+        File file = File.createTempFile("tablica", ".jpg");
+        FileOutputStream fos = new FileOutputStream(file);
+        fos.write(slika.getContent());
+        String absolutePath = file.toString();
+        String numberPlate = "";
+
+        try {
+            systemLogic = new Intelligence(false, pwd);
+            numberPlate = systemLogic.recognize(new CarSnapshot(absolutePath));
+            file.delete();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        System.out.println("Absolute path: " + absolutePath);
+        System.out.println("Number plate: " + numberPlate);
 
         return Response.status(200).entity(numberPlate).build();
     }

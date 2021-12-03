@@ -175,7 +175,7 @@ public class Configurator {
         try {
             loadConfiguration(path);
         } catch (Exception ex) {
-            System.out.println("Error: Couldn't load configuration file "+path);
+            System.out.println("Error: Couldn't load configuration file "+path+" "+ex);
             System.exit(1);
         }
     }

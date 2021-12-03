@@ -46,7 +46,7 @@ SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 The name and trademarks of copyright holder(s) may NOT be used in
 advertising or publicity pertaining to the Original or Derivative Works
 without specific, written prior permission. Title to copyright in the
-Original Work and any associated documentation will at all times remain
+Original Work and any associated documentation will at all times reAnprResource
 with the copyright holders. 
 
 If you want to alter upon this work, you MUST attribute it in 
@@ -90,14 +90,18 @@ import javaanpr.recognizer.KnnPatternClassificator;
 
 public class Intelligence {
     private long lastProcessDuration = 0; // trvanie posledneho procesu v ms
-    
-    public static Configurator configurator = new Configurator("."+File.separator+"resources"+File.separator+"config.xml");
+
+    public static String pwd;
+    public static Configurator configurator;
     public static CharacterRecognizer chrRecog;
     public static Parser parser;
     public boolean enableReportGeneration;
+
     
-    public Intelligence(boolean enableReportGeneration) throws Exception {
+    public Intelligence(boolean enableReportGeneration, String pwd) throws Exception {
         this.enableReportGeneration = enableReportGeneration;
+        this.pwd = pwd;
+        this.configurator = new Configurator(pwd+File.separator+"resources"+File.separator+"config.xml");
         int classification_method = Intelligence.configurator.getIntProperty("intelligence_classification_method");
         
         if (classification_method == 0)
