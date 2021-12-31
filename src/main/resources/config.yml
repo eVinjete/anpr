@@ -12,4 +12,4 @@ kumuluzee:
     ping-interval: 15
   config:
     consul:
-      agent: http://hashicorp-consul-server:8500
+      agent: http://hashicorp-consul-server.default:8500
