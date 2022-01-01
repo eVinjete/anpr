@@ -37,5 +37,4 @@ jobs:
       with:
         file: ./Dockerfile_with_maven_build
         push: true
-#        tags: lovrovrazic/evinjete:anpr-${{ steps.time.outputs.time }}
-        tags: lovrovrazic/evinjete:anpr-latest
+        tags: lovrovrazic/evinjete:anpr-${{ steps.time.outputs.time }}
