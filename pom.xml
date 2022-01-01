@@ -48,7 +48,7 @@
         </dependency>
         <dependency>
             <groupId>com.kumuluz.ee.discovery</groupId>
-            <artifactId>kumuluzee-discovery-consul</artifactId>
+            <artifactId>kumuluzee-discovery-etcd</artifactId>
             <version>1.1.1</version>
         </dependency>
     </dependencies>

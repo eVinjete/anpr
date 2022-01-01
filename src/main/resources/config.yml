@@ -8,7 +8,7 @@ kumuluzee:
     http:
       port: 8081
   discovery:
+    etcd:
+      hosts: http://etcd-service.default.svc.cluster.local:2379
     ttl: 20
     ping-interval: 15
-    consul:
-      agent: http://hashicorp-consul-server.default.svc.cluster.local:8500
