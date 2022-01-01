@@ -10,5 +10,7 @@ kumuluzee:
   discovery:
     etcd:
       hosts: http://etcd-service.default.svc.cluster.local:2379
+      username: root
+      password: 1234321
     ttl: 20
     ping-interval: 15
