@@ -7,6 +7,11 @@ kumuluzee:
     base-url: http://0.0.0.0:8081
     http:
       port: 8081
+  config:
+    etcd:
+      hosts: http://etcd-service.default.svc.cluster.local:2379
+      username: root
+      password: 1234321
   discovery:
     etcd:
       hosts: http://etcd-service.default.svc.cluster.local:2379
