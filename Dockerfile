@@ -8,6 +8,6 @@ WORKDIR /app
 ADD ./target/anpr-1.0.0-SNAPSHOT.jar /app
 ADD ./resources /app/resources
 
-EXPOSE 8080
+EXPOSE 8081
 
 CMD ["java", "-jar", "anpr-1.0.0-SNAPSHOT.jar"]
