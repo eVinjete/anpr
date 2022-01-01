@@ -10,6 +10,5 @@ kumuluzee:
   discovery:
     ttl: 20
     ping-interval: 15
-  config:
     consul:
-      agent: http://hashicorp-consul-server.default.svc.cluster.local
+      agent: http://hashicorp-consul-server.default.svc.cluster.local:8500
