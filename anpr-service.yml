@@ -1,0 +1,55 @@
+apiVersion: v1
+kind: Service
+metadata:
+  annotations:
+    cloud.google.com/neg: '{"ingress":true}'
+  creationTimestamp: "2022-01-01T17:45:39Z"
+  generateName: anpr-
+  labels:
+    app: anpr
+  managedFields:
+  - apiVersion: v1
+    fieldsType: FieldsV1
+    fieldsV1:
+      f:metadata:
+        f:generateName: {}
+        f:labels:
+          .: {}
+          f:app: {}
+      f:spec:
+        f:ports:
+          .: {}
+          k:{"port":8081,"protocol":"TCP"}:
+            .: {}
+            f:port: {}
+            f:protocol: {}
+            f:targetPort: {}
+        f:selector:
+          .: {}
+          f:app: {}
+        f:sessionAffinity: {}
+        f:type: {}
+    manager: GoogleCloudConsole
+    operation: Update
+    time: "2022-01-01T17:45:39Z"
+  name: anpr-h5sxt
+  namespace: default
+  resourceVersion: "1236805"
+  uid: c3aea708-c1ed-49d0-8a76-16b0946609de
+spec:
+  clusterIP: 10.8.13.57
+  clusterIPs:
+  - 10.8.13.57
+  ipFamilies:
+  - IPv4
+  ipFamilyPolicy: SingleStack
+  ports:
+  - port: 8081
+    protocol: TCP
+    targetPort: 8081
+  selector:
+    app: anpr
+  sessionAffinity: None
+  type: ClusterIP
+status:
+  loadBalancer: {}
