@@ -8,14 +8,12 @@ kumuluzee:
     http:
       port: 8081
   config:
-    etcd:
-      hosts: http://etcd-service.default.svc.cluster.local:2379
-      username: root
-      password: 1234321
+    start-retry-delay-ms: 500
+    max-retry-delay-ms: 900000
+    consul:
+      agent: http://hashicorp-consul-server.default.svc.cluster.local:8500
   discovery:
-    etcd:
-      hosts: http://etcd-service.default.svc.cluster.local:2379
-      username: root
-      password: 1234321
     ttl: 20
     ping-interval: 15
+    consul:
+      agent: http://hashicorp-consul-server.default.svc.cluster.local:8500
